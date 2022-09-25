@@ -1,0 +1,45 @@
+---
+kind: pipeline
+name: default
+
+steps:
+
+  - name: py37
+    image: xsteadfastx/tox-python:minimal
+    environment:
+      TOX_WORK_DIR: /tmp/tox
+    commands:
+      - sudo apk add --no-cache gcc musl-dev
+      - tox -e py37
+
+  - name: bandit
+    image: xsteadfastx/tox-python:minimal
+    environment:
+      TOX_WORK_DIR: /tmp/tox
+    commands:
+      - sudo apk add --no-cache gcc musl-dev
+      - tox -e bandit
+
+  - name: prospector
+    image: xsteadfastx/tox-python:minimal
+    environment:
+      TOX_WORK_DIR: /tmp/tox
+    commands:
+      - sudo apk add --no-cache gcc musl-dev
+      - tox -e prospector
+
+  - name: black
+    image: xsteadfastx/tox-python:minimal
+    environment:
+      TOX_WORK_DIR: /tmp/tox
+    commands:
+      - sudo apk add --no-cache gcc musl-dev
+      - tox -e black-only-check
+
+  - name: cookiecutter
+    image: xsteadfastx/tox-python:minimal
+    environment:
+      TOX_WORK_DIR: /tmp/tox
+    commands:
+      - sudo apk add --no-cache git gcc make musl-dev libffi-dev openssl-dev
+      - tox -e cookiecutter
